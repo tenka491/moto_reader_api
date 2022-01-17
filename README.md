@@ -2,14 +2,18 @@
 
 This api will return news about motorcycles.
 
+## Getting started
+
+```
+npm ci
+npm start
+```
+
+
 ## Tech Stack
 - Heroku
 - express
-- 
-
 
 ## TODO:
-- Start installing packages
-  - express
-  - react
-- Install Hosting Emulator for localhost:8001
+
+- Get local environment set up.

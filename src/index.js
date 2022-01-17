@@ -1,16 +1,12 @@
-const functions = require("firebase-functions");
+const PORT = process.env.PORT || 8093
+const express = require('express')
 const cors = require("cors")({ origin: true })
 
 const cheerio = require("cheerio");
 const axios = require("axios");
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//   functions.logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+const app = express()
+
 const sites = [
   // {
   //   url: "https://www.asphaltandrubber.com",
@@ -50,11 +46,12 @@ const sites = [
   },
 ];
 
-const scrapeMetatags = () => {
-  const articles = [];
-  const requests = sites.map(async site => {
+const articles = [];
+// refactor.
 
-      const response = await axios  (site.url);
+sites.forEach(site => {
+  axios.get(site.url)
+    .then(response => {
       const html = response.data;
       const $ = cheerio.load(html);
       // need to find all the titles
@@ -67,25 +64,15 @@ const scrapeMetatags = () => {
           url: `${site.baseUrl}${url}`,
         })
       })
-      
+    })
+})
 
-      // const articleList = { 
-      //     baseUrl: site.url,
-      //     siteTitle: $('title').first().text(),
-      //     favicon: $('link[rel="shortcut icon"]').attr('href'),
-      //     articleTitles: "",
-      //     description: "",
-      //     image: "",
-      //     author: "",
-      // }
-      // console.log(articleList);
-      console.log(articles);
-      return articles;
-  });
+app.get('/', (request, response) => {
+  response.json('Welcome to the moto-reader-api')
+})
 
+app.get('/articles', (request, response) => {
+  response.json(articles);
+})
 
-  return Promise.all(requests);
-
-}
-scrapeMetatags();
-console.log("End all things");
+app.listen(PORT, () => console.log(`server running on PORT ${PORT}`))
