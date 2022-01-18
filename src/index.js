@@ -8,36 +8,36 @@ const axios = require("axios");
 const app = express()
 
 const sites = [
-  // {
-  //   url: "https://www.asphaltandrubber.com",
-  //   titleSelector: ".post-title-alt",
-  //   postDescriptionClassName: ".post-content",
-      // baseUrl: ""
-  // },
-  // {
-  //   url: "https://www.motorcyclenews.com",
-  //   titleSelector: ".home__featured-stories__story",
-  //   postDescriptionClassName: "",
-  //   baseUrl: "https://www.motorcyclenews.com"
-  // },
-  // {
-  //   url: "https://www.cycleworld.com",
-  //   titleSelector: ".headline",
-  //   postDescriptionClassName: ".subtitle",
-  //   baseUrl: "https://www.cycleworld.com"
-  // },
-  // {
-  //   url: "https://www.motorcyclistonline.com",
-  //   titleSelector: ".headline",
-  //   postDescriptionClassName: ".subtitle",
-  //   baseUrl: "https://www.motorcyclistonline.com"
-  // },
-  // {
-  //   url: "https://www.motorcycle.com",
-  //   titleSelector: "article",
-  //   postDescriptionClassName: "",
-  //   baseUrl: ""
-  // },
+  {
+    url: "https://www.asphaltandrubber.com",
+    titleSelector: ".post-title-alt",
+    postDescriptionClassName: ".post-content",
+      baseUrl: ""
+  },
+  {
+    url: "https://www.motorcyclenews.com",
+    titleSelector: ".home__featured-stories__story",
+    postDescriptionClassName: "",
+    baseUrl: "https://www.motorcyclenews.com"
+  },
+  {
+    url: "https://www.cycleworld.com",
+    titleSelector: ".headline",
+    postDescriptionClassName: ".subtitle",
+    baseUrl: "https://www.cycleworld.com"
+  },
+  {
+    url: "https://www.motorcyclistonline.com",
+    titleSelector: ".headline",
+    postDescriptionClassName: ".subtitle",
+    baseUrl: "https://www.motorcyclistonline.com"
+  },
+  {
+    url: "https://www.motorcycle.com",
+    titleSelector: "article",
+    postDescriptionClassName: "",
+    baseUrl: ""
+  },
   {
     url: "https://www.motorcycle.com",
     titleSelector: "h3",
@@ -47,7 +47,6 @@ const sites = [
 ];
 
 const articles = [];
-// refactor.
 
 sites.forEach(site => {
   axios.get(site.url)
