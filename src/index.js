@@ -34,44 +34,43 @@ const sites = [
   },
   {
     url: "https://www.motorcycle.com",
-    titleSelector: "article",
-    postDescriptionClassName: "",
-    baseUrl: ""
-  },
-  {
-    url: "https://www.motorcycle.com",
     titleSelector: "h3",
     postDescriptionClassName: "",
-    baseUrl: "https://www.motorcycle.com"
+    baseUrl: ""
   },
 ];
 
 const articles = [];
+
+const cleanString = cleanThis => {
+    return cleanThis.replace(/\t|\n/gm, '');
+};
 
 sites.forEach(site => {
   axios.get(site.url)
     .then(response => {
       const html = response.data;
       const $ = cheerio.load(html);
-      // need to find all the titles
       
       $(site.titleSelector, html).each(function() {
-        const title = $(this).text();
-        const url = $(this).find('a').attr('href')
+        const dirtyTitle = $(this).text();
+        const cleanTitle = cleanString(dirtyTitle);
+
+        const url = $(this).find('a').attr('href');
         articles.push({
-          title,
+          title: cleanTitle,
           url: `${site.baseUrl}${url}`,
-        })
-      })
-    })
-})
+        });
+      });
+    });
+});
 
 app.get('/', (request, response) => {
-  response.json('Welcome to the moto-reader-api')
-})
+  response.json('Welcome to the moto-reader-api');
+});
 
 app.get('/articles', (request, response) => {
   response.json(articles);
-})
+});
 
-app.listen(PORT, () => console.log(`server running on PORT ${PORT}`))
+app.listen(PORT, () => console.log(`server running on PORT ${PORT}`));
