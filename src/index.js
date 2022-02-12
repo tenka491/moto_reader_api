@@ -4,41 +4,9 @@ const cors = require("cors")({ origin: true })
 
 const cheerio = require("cheerio");
 const axios = require("axios");
+const sites = require("./sites")
 
 const app = express()
-
-const sites = [
-  {
-    url: "https://www.asphaltandrubber.com",
-    titleSelector: ".post-title-alt",
-    postDescriptionClassName: ".post-content",
-      baseUrl: ""
-  },
-  {
-    url: "https://www.motorcyclenews.com",
-    titleSelector: ".home__featured-stories__story",
-    postDescriptionClassName: "",
-    baseUrl: "https://www.motorcyclenews.com"
-  },
-  {
-    url: "https://www.cycleworld.com",
-    titleSelector: ".headline",
-    postDescriptionClassName: ".subtitle",
-    baseUrl: "https://www.cycleworld.com"
-  },
-  {
-    url: "https://www.motorcyclistonline.com",
-    titleSelector: ".headline",
-    postDescriptionClassName: ".subtitle",
-    baseUrl: "https://www.motorcyclistonline.com"
-  },
-  {
-    url: "https://www.motorcycle.com",
-    titleSelector: "h3",
-    postDescriptionClassName: "",
-    baseUrl: ""
-  },
-];
 
 const articles = [];
 
@@ -52,14 +20,25 @@ sites.forEach(site => {
       const html = response.data;
       const $ = cheerio.load(html);
       
-      $(site.titleSelector, html).each(function() {
+      // TODO: switch this to the Article Selector
+      $(site.selectors.title, html).each(function() {
         const dirtyTitle = $(this).text();
         const cleanTitle = cleanString(dirtyTitle);
 
         const url = $(this).find('a').attr('href');
         articles.push({
+          siteId: site.id,
           title: cleanTitle,
+          description: "",
           url: `${site.baseUrl}${url}`,
+          publishedDate: "",
+          author: "",
+          image: {
+            source: "",
+            alt: "",
+          },
+          siteIcon: "",
+          displayName: site.displayName,
         });
       });
     });

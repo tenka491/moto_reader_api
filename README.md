@@ -9,30 +9,37 @@ npm ci
 npm start
 ```
 
-You can either go to `http://localhost:8094` or your local IP + `:8093`
+You can either go to `http://localhost:8093` or your local IP + `:8093`
 
 ## Tech Stack
 - Heroku
-- express
+- Express
+- Node JS
+
+
+## Pre-Alpha TODO: List
+
+- Add Article Img
+- Add Site Icon
+- Add unit tests to check if each site returns something, this will help with checking if anything changed.
+- Add Article Date
+- Add default Sort order (by date)
+---
 
 ## TODO:
 
-- Add Article Img
 - Add Description
 - Add Article Author
-- Add Article Date
+
 - Add Site Name
-- Add Site Icon
 - Add per site counter
 - Add more Sites
- ---
 
-- Trim Title?
-- Add default Sort order
 ---
+
 - Get Article by SiteIds
-- Add unit tests to check if each site returns something, this will help with checking if anything changed.
 
 ---
+
 - Prep for deployment to Heroku
 - add API to RapidAPI.com for a little money
