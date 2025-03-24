@@ -22,12 +22,13 @@ const extractArticles = async (site, feedSource) => {
     articles.concat(extractedRss);
   }
   if (site.srcType === srcType.html) {
+    // TODO: update scraper
     extractedScraped = await scrapeForArticles(site, feedSource);
     console.log("scraped: ", {extractedScraped})
 
     articles.concat(extractedScraped);
   }
-
+  // TODO: Concat all the arrays into one array
   console.log("extractArticles: ", {articles})
 }
 
