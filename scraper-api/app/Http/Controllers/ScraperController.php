@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ScrapedItem;
+use App\Models\Site;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -12,69 +13,72 @@ class ScraperController extends Controller {
         $items = ScrapedItem::all();
         return response()->json($items);
     }
-    // TODO: Add Scrapper and really scrape a site
 
-    public function scrape() {
-        $response = Http::get('https://www.motorcyclenews.com/news/2025/march/trident-mcs-go-fund-me-after-fire-damage/');
-        $crawler = new Crawler($response->body());
+    public function scrape($site_id)
+    {
+        // Fetch site with selectors
+        $site = Site::with('selectors')->findOrFail($site_id);
+        $feedSelector = $site->selectors->where('pageType', 'feed')->first();
+        $articleSelector = $site->selectors->where('pageType', 'article')->first();
 
+        // Step 1: Crawl the list page
+        $response = Http::get($site->url);
 
-        $title = $crawler->filter('h1')->text(); // Adjust selector
-        // $price = (float)$crawler->filter('.price')->text();
-        // $url = $title->filter;
+        if ($response->failed()) {
+            return response()->json(['error' => 'Failed to fetch URL'], 400);
+        }
 
-        $item = ScrapedItem::create([
-            'title' => $title,
-            // 'price' => $price,
-            // 'url' => $url,
-        ]);
+        $listCrawler = new Crawler($response->body());
 
-        return response()->json($item, 201);
+        // Extract article URLs based on selector type
+        $articleUrls = [];
+        if ($site->srcType === 'html') {
+            $articleUrls = $listCrawler->filter($feedSelector->title)->links();
+            $articleUrls = array_map(fn($link) => $link->getUri(), $articleUrls);
+
+        } elseif ($site->srcType === 'rss') {
+            $xml = simplexml_load_string($response->body());
+            $items = $xml->xpath('//item/link');
+            $articleUrls = array_map('strval', $items);
+        }
+        if (empty($articleUrls)) {
+            return response()->json($articleUrls, 404);
+        }
+        // // Step 2: Scrape each article URL
+        $scrapedItems = [];
+        foreach ($articleUrls as $articleUrl) {
+            $articleResponse = Http::get($articleUrl);
+            $articleCrawler = new Crawler($articleResponse->body());
+
+            // Basic scraping (customize selectors for article pages)
+            try {
+                $title = $articleCrawler->filter($articleSelector->title)->text();
+                $author = $articleCrawler->filter($articleSelector->author)->text();
+                $imgs = $articleCrawler->filter($articleSelector->image)->first();
+                $firstImgSrc = $imgs->attr('src');
+                $firstImgAlt = trim($imgs->attr('alt')) ?: 'No Alt';
+                $siteIcon = $articleCrawler->filter($articleSelector->siteIcon)->attr('href') ?? 'No Icon';
+            } catch (\Exception $e) {
+                $title = 'Untitled'; // Fallback
+            }
+
+            $item = ScrapedItem::create([
+                'siteId' => $site_id,
+                'siteIcon' => $siteIcon,
+                'siteDisplayName' => $site->displayName,
+                'url' => $articleUrl,
+                'title' => $title,
+                'description' => '',
+                'author' => $author,
+                'imageSrc'=> $firstImgSrc,
+                'imageAlt' => $firstImgAlt,
+                'baseUrl' => $site->baseUrl
+            ]);
+
+            $scrapedItems[] = $item;
+        }
+
+        // // Step 3: Return all scraped items
+        return response()->json($scrapedItems, 201);
     }
 }
-// namespace App\Http\Controllers;
-
-// use Illuminate\Http\Request;
-
-// class ScraperController extends Controller
-// {
-//     /**
-//      * Display a listing of the resource.
-//      */
-//     public function index()
-//     {
-//         //
-//     }
-
-//     /**
-//      * Store a newly created resource in storage.
-//      */
-//     public function store(Request $request)
-//     {
-//         //
-//     }
-
-//     /**
-//      * Display the specified resource.
-//      */
-//     public function show(string $id)
-//     {
-//         //
-//     }
-
-//     /**
-//      * Update the specified resource in storage.
-//      */
-//     public function update(Request $request, string $id)
-//     {
-//         //
-//     }
-
-//     /**
-//      * Remove the specified resource from storage.
-//      */
-//     public function destroy(string $id)
-//     {
-//         //
-//     }
-// }

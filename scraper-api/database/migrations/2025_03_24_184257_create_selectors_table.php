@@ -11,18 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('scraped_items', function (Blueprint $table) {
+        Schema::create('selectors', function (Blueprint $table) {
             $table->id();
-            $table->string('siteId');
-            $table->text('siteIcon');
-            $table->string('siteDisplayName');
+            $table->foreignId('site_id')->constrained()->onDelete('cascade'); // Foreign key to sites
+            $table->enum('pageType', ['feed', 'article'])->default('article');
+            $table->string('article');
             $table->string('title');
-            $table->string('description');
-            $table->string('url')->unique();
-            $table->text('baseUrl');
+            $table->string('postDescription');
+            $table->string('image');
             $table->string('author');
-            $table->text('imageSrc');
-            $table->string('imageAlt');
+            $table->string('publishedDate');
+            $table->string('siteIcon');
             $table->timestamps();
         });
     }
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('scraped_items');
+        Schema::dropIfExists('selectors');
     }
 };

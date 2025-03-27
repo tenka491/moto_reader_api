@@ -11,18 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('scraped_items', function (Blueprint $table) {
+        Schema::create('sites', function (Blueprint $table) {
             $table->id();
-            $table->string('siteId');
-            $table->text('siteIcon');
-            $table->string('siteDisplayName');
-            $table->string('title');
-            $table->string('description');
             $table->string('url')->unique();
+            $table->enum('srcType', ['html', 'rss'])->default('html');
+            $table->string('displayName');
             $table->text('baseUrl');
-            $table->string('author');
-            $table->text('imageSrc');
-            $table->string('imageAlt');
             $table->timestamps();
         });
     }
@@ -32,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('scraped_items');
+        Schema::dropIfExists('sites');
     }
 };

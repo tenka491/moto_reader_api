@@ -92,7 +92,7 @@ The API will be available at `http://localhost:8000`.
 
 ## Notes
 - **Scraping Logic**: Uses `guzzlehttp/guzzle` for HTTP requests. Customize `ScraperController::scrape()` for your target site.
-- **Database**: `scraped_items` table includes `id`, `title`, `price`, `url`, and additional fields (customize as needed).
+- **Database**: `scraped_items` table includes `id`, `title`, `url`, and additional fields (customize as needed).
 - **Future Tables**: Additional tables can be added via `php artisan make:migration`.
 
 ## Troubleshooting
