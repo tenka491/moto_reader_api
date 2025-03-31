@@ -55,17 +55,17 @@ class SelectorsTableSeeder extends Seeder
                 'siteIcon' => '', // Common for RSS
             ],
             // Site 3: Tech Articles (html)
-            [
-                'site_id' => $sites[2]->id,
-                'pageType' => 'feed',
-                'article' => 'article.text_wrapper',
-                'title' => '.text .main-column-text > h3 > a',
-                'postDescription' => '.main-column-text-wrapper > p',
-                'image' => 'a.lazyloaded',
-                'author' => '',
-                'publishedDate' => '',
-                'siteIcon' => ''
-            ],
+            // [
+            //     'site_id' => $sites[2]->id,
+            //     'pageType' => 'feed',
+            //     'article' => 'article.text_wrapper',
+            //     'title' => '.text .main-column-text > h3 > a',
+            //     'postDescription' => '.main-column-text-wrapper > p',
+            //     'image' => 'a.lazyloaded',
+            //     'author' => '',
+            //     'publishedDate' => '',
+            //     'siteIcon' => ''
+            // ],
         ];
 
         foreach ($selectors as $selector) {

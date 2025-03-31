@@ -52,9 +52,9 @@ return [
 
     'channels' => [
 
-        'stack' => [
+       'stack' => [
             'driver' => 'stack',
-            'channels' => explode(',', env('LOG_STACK', 'single')),
+            'channels' => ['single', 'stdout'],
             'ignore_exceptions' => false,
         ],
 
@@ -62,7 +62,6 @@ return [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),
             'level' => env('LOG_LEVEL', 'debug'),
-            'replace_placeholders' => true,
         ],
 
         'daily' => [
@@ -126,7 +125,22 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
-
+        'stdout' => [
+            'driver' => 'monolog',
+            'handler' => \Monolog\Handler\StreamHandler::class,
+            'with' => [
+                'stream' => 'php://stdout',
+            ],
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
+        'console' => [
+            'driver' => 'monolog',
+            'handler' => \Monolog\Handler\StreamHandler::class,
+            'with' => [
+                'stream' => 'php://stdout',
+            ],
+            'level' => 'debug',
+        ],
     ],
 
 ];

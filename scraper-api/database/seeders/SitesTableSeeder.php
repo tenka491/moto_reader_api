@@ -17,23 +17,23 @@ class SitesTableSeeder extends Seeder
                 'baseUrl' => 'https://www.motorcyclenews.com',
             ],
             [
-                'url' => 'https://www.motorcyclistonline.com/motorcycle-news/',
-                'srcType' => 'rss',
-                'displayName' => 'Motorcyclist Online',
-                'baseUrl' => 'https://www.motorcyclistonline.com',
-            ],
-            [
-                'url' => 'https://blog.motorcycle.com/',
-                'srcType' => 'rss',
+                'url' => 'https://motorcycle.com/',
+                'srcType' => 'html',
                 'displayName' => 'Motorcycle.com',
                 'baseUrl' => '',
             ],
-            [
-                'url' => 'https://www.asphaltandrubber.com/feed/',
-                'srcType' => 'rss',
-                'displayName' => 'Asphalt and Rubber',
-                'baseUrl' => '',
-            ],
+            // [
+            //     'url' => 'https://www.motorcyclistonline.com/motorcycle-news/',
+            //     'srcType' => 'rss',
+            //     'displayName' => 'Motorcyclist Online',
+            //     'baseUrl' => 'https://www.motorcyclistonline.com',
+            // ],
+            // [
+            //     'url' => 'https://www.asphaltandrubber.com/feed/',
+            //     'srcType' => 'rss',
+            //     'displayName' => 'Asphalt and Rubber',
+            //     'baseUrl' => '',
+            // ],
         ];
 
         foreach ($sites as $site) {
