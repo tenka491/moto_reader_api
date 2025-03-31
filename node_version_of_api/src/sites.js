@@ -21,7 +21,7 @@ const sites = [
     id: 1,
     url: "https://www.motorcyclenews.com/news/",
    srcType: srcType.html, 
-   displayName: "Motorcycle News",
+    displayName: "Motorcycle News",
     baseUrl: "https://www.motorcyclenews.com",
     selectors: {
       article: ".article-landing__article",
@@ -50,38 +50,38 @@ const sites = [
   //     siteIcon:""
   //   }
   // },
-  // {
-  //   id: 3,
-  //   url: "https://www.motorcyclistonline.com/motorcycle-news/",
-  //  srcType: srcType.rss, 
-  //  displayName: "Motorcyclist Online",
-  //   baseUrl: "https://www.motorcyclistonline.com",
-  //   selectors: {
-  //     article: ".flex-feature .container",
-  //     title: ".feature-listing > .headline",
-  //     postDescription: ".subtitle",
-  //     image: "",
-  //     author: "",
-  //     date: "",
-  //     siteIcon:""
-  //   }
-  // },
-  // {
-  //   id: 4,
-  //   url: "https://blog.motorcycle.com/",
-  //  srcType: srcType.rss, 
-  //  displayName: "Motorcycle.com",
-  //   baseUrl: "",
-  //   selectors: {
-  //     article: "article.text_wrapper",
-  //     title: ".text .main-column-text > h3 > a",
-  //     postDescription: ".main-column-text-wrapper > p",
-  //     image: "a.lazyloaded",
-  //     author: "",
-  //     date: "",
-  //     siteIcon:""
-  //   }
-  // },
+  {
+    id: 3,
+    url: "https://www.motorcyclistonline.com/motorcycle-news/",
+   srcType: srcType.rss, 
+   displayName: "Motorcyclist Online",
+    baseUrl: "https://www.motorcyclistonline.com",
+    selectors: {
+      article: ".flex-feature .container",
+      title: ".feature-listing > .headline",
+      postDescription: ".subtitle",
+      image: "",
+      author: "",
+      date: "",
+      siteIcon:""
+    }
+  },
+  {
+    id: 4,
+    url: "https://blog.motorcycle.com/",
+   srcType: srcType.rss, 
+   displayName: "Motorcycle.com",
+    baseUrl: "",
+    selectors: {
+      article: "article.text_wrapper",
+      title: ".text .main-column-text > h3 > a",
+      postDescription: ".main-column-text-wrapper > p",
+      image: "a.lazyloaded",
+      author: "",
+      date: "",
+      siteIcon:""
+    }
+  },
 ];
 
 module.exports = sites;
